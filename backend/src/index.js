@@ -17,4 +17,4 @@ app.use("/api/users", userRoutes)
 
 const PORT = process.env.PORT;
 
-app.listen(PORT, () => console.log(`Server berjalan di port${PORT}`));
+app.listen(PORT, () => console.log(`Server berjalan di port ${PORT}`));
