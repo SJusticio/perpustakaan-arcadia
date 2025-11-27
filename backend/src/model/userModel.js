@@ -1,11 +1,11 @@
 import { pool } from  "../connection/db.js"
 
-export const createUser = async (fullName, xUsername, phoneNumber, email, passwordHash) => {
+export const createUser = async (name, username, passwordHash, status) => {
     const result = await pool.query(
-        `INSERT INTO users (full_name, x_username, phone_number, email, password_hash) 
-        VALUES($1, $2, $3, $4, $5) 
-        RETURNING user_id, email, full_name, x_username`,
-        [fullName, xUsername, phoneNumber, email, passwordHash]
+        `INSERT INTO peminjam (nama_peminjam, user_peminjam, pass_peminjam, status_peminjam) 
+        VALUES($1, $2, $3, $4) 
+        RETURNING id_peminjam, nama_peminjam, user_peminjam, status_peminjam`,
+        [name, username, passwordHash, status]
     );
     return result.rows[0]
 }
@@ -21,7 +21,7 @@ export const findUserByUsn = async (username) => {
 
 export const findAdminByUsn = async (username) => {
     const result = await pool.query(
-        `SELECT * FROM users
+        `SELECT * FROM admin
         WHERE user_admin = $1`,
         [username]
     )
