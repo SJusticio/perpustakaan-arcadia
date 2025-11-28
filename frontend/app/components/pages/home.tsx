@@ -24,16 +24,23 @@ import { BookOpen } from "lucide-react"
 
 import { loaning, showBook } from "@/lib/api";
 import { ApiResponse, BookPayload, LoanPayload } from "@/types/user"
+import { useRouter } from "next/navigation"
+import { useAuth } from "@/lib/auth"
 
 export default function HomePage() {
+  const { isAuthenticated } = useAuth();
+  const router = useRouter()
   const [books, setBooks] = useState<any[]>([]) 
   const [selectedBooks, setSelectedBooks] = useState<number[]>([])
   const [showDialog, setShowDialog] = useState(false)
 
   useEffect(() => {
     async function getBook() {
+      const role = localStorage.getItem("role");
+      if( !isAuthenticated || (role=="admin")){
+        router.push("/login")
+      }
       try {
-        const role = localStorage.getItem("role");
         const payload: BookPayload = { role };
 
         const resBook: ApiResponse = await showBook(payload);
